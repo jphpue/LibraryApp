@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using LibraryApp.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace LibraryApp
 {
@@ -25,6 +27,12 @@ namespace LibraryApp
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
+            });
+
+            services.AddDbContext<BookContext>(options =>
+            {
+                var connectionString = Configuration.GetConnectionString("BookContext");
+                options.UseSqlServer(connectionString);
             });
         }
 
