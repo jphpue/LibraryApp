@@ -43,9 +43,18 @@ namespace LibraryApp.Controllers
         }
 
         // GET: Books/Create
-        public IActionResult Create()
+       
+        public string Create(string author, string title, string description)
         {
-            return View();
+            Book book = new Book
+            {
+                author = author,
+                title = title,
+                description = description
+            };
+            _context.Add(book);
+            _context.SaveChanges();
+            return "Ok";
         }
 
         // POST: Books/Create

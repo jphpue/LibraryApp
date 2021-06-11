@@ -1,4 +1,4 @@
-<form [formGroup]="bookDataForm" (ngSubmit)="onSubmit(($event.submitter.id))">
+<form [formGroup]="bookDataForm" (ngSubmit)="onSubmit()">
   <h4>Title</h4>
   <input class="form-control input-lg" formControlName="title" id="title" type="text" >
   <h4>Author</h4>
@@ -7,10 +7,10 @@
   <textarea id="description" formControlName="description" ></textarea>
   <div id="buttons">
     <!-- saves a new entry -->
-    <button type="submit" (click)="SaveNew()">Save new</button>
+    <button type="submit">Save new</button>
 
     <!-- Saves changes made to a existing entry -->
-    <button type="submit" (click)="SaveChanges()">Save changes</button>
+    <button type="submit">Save changes</button>
 
     <!-- deletes an entry-->
     <button (click)="delete()">Delete</button>
