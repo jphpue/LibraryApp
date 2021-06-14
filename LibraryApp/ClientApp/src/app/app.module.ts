@@ -10,7 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { AddBookComponent } from './add-book/add-book.component';
-import { BookListingComponent } from './book-listing/book-listing.component';
+//import { BookListingComponent } from './book-listing/book-listing.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { BookListingComponent } from './book-listing/book-listing.component';
     CounterComponent,
     FetchDataComponent,
     AddBookComponent,
-    BookListingComponent
+    //BookListingComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

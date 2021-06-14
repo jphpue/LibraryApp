@@ -1,20 +1,67 @@
-<form [formGroup]="bookDataForm" (ngSubmit)="onSubmit()">
-  <h4>Title</h4>
-  <input class="form-control input-lg" formControlName="title" id="title" type="text" >
-  <h4>Author</h4>
-  <input class="form-control input-lg" formControlName="author" id="author" type="text" >
-  <h4>Description</h4>
-  <textarea id="description" formControlName="description" ></textarea>
-  <div id="buttons">
-    <!-- saves a new entry -->
-    <button type="submit">Save new</button>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6" id="userInput">
+    
+    <h3 *ngIf="!existingBook; else Existing"> Add Book</h3>
+    <ng-template #Existing>
+      <h3>Edit Book</h3>
+    </ng-template>
+    <form [formGroup]="bookDataForm" (ngSubmit)="onSubmit($event)" novalidate>
+      <input type="hidden" formControlName="bookId" [(ngModel)]="bookId" />
+      <h4>Title</h4>
+      <input class="form-control input-lg" formControlName="title" id="title" type="text" [(ngModel)]="title">
 
-    <!-- Saves changes made to a existing entry -->
-    <button type="submit">Save changes</button>
+      <div *ngIf="!bookDataForm.controls.title?.valid && (bookDataForm.controls.title?.dirty
+                  ||bookDataForm.controls.title?.touched)">
+        Title is not valid
+      </div>
+      <h4>Author</h4>
+      <input class="form-control input-lg" formControlName="author" id="author" type="text" [(ngModel)]="author">
+      <div *ngIf="!bookDataForm.controls.author?.valid && (bookDataForm.controls.author?.dirty
+                  ||bookDataForm.controls.author?.touched)">
+        Title is not valid
+      </div>
+      <h4>Description</h4>
+      <textarea id="description" formControlName="description" [(ngModel)]="description"></textarea>
+      <div id="buttons">
+        <!-- saves a new entry -->
+        <button type="submit" id="save new" [disabled]="!bookDataForm.valid">Save new</button>
 
-    <!-- deletes an entry-->
-    <button (click)="delete()">Delete</button>
-  </div>
-</form>
+        <!-- Saves changes made to a existing entry -->
+        <button type="submit" id="save changes" [disabled]="!bookDataForm.valid || !existingBook">Save changes</button>
 
+        <!-- deletes an entry-->
+        <button type="submit" [disabled]="!existingBook" id="delete">Delete</button>
 
+        <!--resets input fields-->
+        <button type="reset" (click)="reset()">Cancel edit</button>
+      </div>
+    </form>
+    </div> <!--end of col-->
+    <div class="col-sm-6" id="results">
+      <h4>Results</h4>
+      <div id="results">
+        <div class='panel-body'>
+          <div class='table-responsive'>
+            <table class='table'>
+              <thead>
+                <tr>
+                  <th>author</th>
+                  <th>title</th>
+                  <th>description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let book of Books; let i = index" (click)="editBook(book, i)">
+                  <td>{{book.author}}</td>
+                  <td>{{book.title}}</td>
+                  <td>{{book.description}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div><!--end of col-->
+ </div><!--end of row-->
+</div><!--end of container-->

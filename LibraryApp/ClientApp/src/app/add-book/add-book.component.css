@@ -7,3 +7,9 @@
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
+
+#results {
+  min-height: 200px;
+  min-width: 200px;
+ 
+}
