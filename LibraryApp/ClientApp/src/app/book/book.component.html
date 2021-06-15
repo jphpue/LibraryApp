@@ -24,8 +24,9 @@
       <h4>Description</h4>
       <textarea id="description" formControlName="description" [(ngModel)]="description"></textarea>
       <div id="buttons">
+
         <!-- saves a new entry -->
-        <button type="submit" id="save new" [disabled]="!bookDataForm.valid">Save new</button>
+        <button type="submit" id="save new" [disabled]="!bookDataForm.valid || existingBook">Save new</button>
 
         <!-- Saves changes made to a existing entry -->
         <button type="submit" id="save changes" [disabled]="!bookDataForm.valid || !existingBook">Save changes</button>
@@ -37,7 +38,7 @@
         <button type="reset" (click)="reset()">Cancel edit</button>
       </div>
     </form>
-    </div> <!--end of col-->
+    </div> <!--end of col userUnput-->
     <div class="col-sm-6" id="results">
       <h4>Results</h4>
       <div id="results">
@@ -62,6 +63,6 @@
           </div>
         </div>
       </div>
-    </div><!--end of col-->
+    </div><!--end of col results-->
  </div><!--end of row-->
 </div><!--end of container-->

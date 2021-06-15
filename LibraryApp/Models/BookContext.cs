@@ -11,7 +11,7 @@ namespace LibraryApp.Models
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "Book.db" };
+            var connectionStringBuilder = new SqliteConnectionStringBuilder { DataSource = "Books.db" };
             var connectionString = connectionStringBuilder.ToString();
             var connection = new SqliteConnection(connectionString);
 

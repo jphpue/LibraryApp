@@ -3,11 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { FormGroup, FormControl, NgForm, Validators, FormBuilder} from '@angular/forms';
 
 @Component({
-  selector: 'add-book',
-  templateUrl: './add-book.component.html',
-  styleUrls: ['./add-book.component.css'],
+  selector: 'book',
+  templateUrl: './book.component.html',
+  styleUrls: ['./book.component.css'],
 })
-export class AddBookComponent implements OnInit {
+export class BookComponent implements OnInit {
   @Output() bookListingEvent = new EventEmitter();
 
   http: HttpClient;
@@ -19,17 +19,17 @@ export class AddBookComponent implements OnInit {
     this.http = http;
   }
   
-  formbuilder: FormBuilder;
-
   //book data variables
   author: string;
   title: string;
   description: string;
   bookId: number;
 
+  //for label to tell user if they are modifying existing or creating a new entry
   existingBook = false;
- 
-   bookDataForm = new FormGroup({
+
+
+  bookDataForm = new FormGroup({
      bookId: new FormControl(),
      author: new FormControl('', [
        Validators.required
@@ -38,19 +38,21 @@ export class AddBookComponent implements OnInit {
        Validators.required,
      ]),
      description: new FormControl()
-   });
+  });
+
+  //list for books to show on result screen
   public Books: Book[] = [];
-  public storage: Storage;
   
   ngOnInit() {
-    this.listBooks();
-    
+    this.listBooks();  
   }
 
+  //to refresh list of books after adding or modifying an entry
   refreshBooks() {
     this.Books = [];
     this.listBooks();
   }
+  //edit existing book
   editBook(book: Book, id: number) {
     this.existingBook = true;
     this.author = book.author;
@@ -58,10 +60,11 @@ export class AddBookComponent implements OnInit {
     this.description = book.description;
     this.bookId = book.id;
   }
- 
+
+  //get books from backend
   listBooks() {
     var books = this.Books;
-
+    //Controllers/BooksController.cs function: index
     this.http.get<Book[]>(this.url + 'Books/Index').subscribe(result => {
 
       result.forEach(function (value) {
@@ -76,7 +79,7 @@ export class AddBookComponent implements OnInit {
 
   saveNew() {
     this.existingBook = false;
-    console.log(this.author)
+    //Controllers/BooksController.cs function: Create
      this.http.get<string>(this.url + 'Books/Create' +'?author=' + this.author + '&title=' + this.title + '&description='+this.description).subscribe(result => {
 
        this.bookDataForm.reset();
@@ -88,7 +91,8 @@ export class AddBookComponent implements OnInit {
   }
   saveChanges() {
     this.existingBook = true;
-    this.http.get<string>(this.url + 'Books/Edit' + '?id=' + this.bookId + '&author=' + this.author + '&title=' + this.title + '&description='+this.description).subscribe(result => {
+    //Controllers/BooksController.cs function: Edit
+    this.http.get<string>(this.url + 'Books/Edit' + '?id=' + this.bookId + '&author=' + this.author + '&title=' + this.title + '&description=' + this.description).subscribe(result => {
 
       this.bookDataForm.reset();
       this.refreshBooks();
@@ -100,6 +104,7 @@ export class AddBookComponent implements OnInit {
   }
 
   delete() {
+    //Controllers/BooksController.cs function: Delete
     this.http.get<string>(this.url + 'Books/Delete' + '?id=' + this.bookId).subscribe(result => {
       this.refreshBooks()
 
@@ -110,19 +115,21 @@ export class AddBookComponent implements OnInit {
   reset() {
     this.existingBook = false;
   }
+
+  //on submitting the form check for the button id, then determine right course of action
   onSubmit(event) {
-    console.log(event.submitter.id);
+ 
     if (event.submitter.id == "save new") {
-      console.log("save new");
+     
       this.saveNew()
     }
     else if(event.submitter.id == "save changes") {
-      console.log("save changes")
+   
         this.saveChanges();
     }
 
     else if (event.submitter.id == "delete") {
-      console.log("delete")
+   
       this.delete();
     }
     this.existingBook = false;

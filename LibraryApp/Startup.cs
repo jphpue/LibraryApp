@@ -25,7 +25,7 @@ namespace LibraryApp
             using (var db = new BookContext())
             {
                 db.Database.EnsureCreated();
-                //db.Database.Migrate();
+                
             }
         }
      
