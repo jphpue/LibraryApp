@@ -110,7 +110,7 @@ export class AddBookComponent implements OnInit {
   reset() {
     this.existingBook = false;
   }
-  onSubmit(event, form: NgForm) {
+  onSubmit(event) {
     console.log(event.submitter.id);
     if (event.submitter.id == "save new") {
       console.log("save new");

@@ -12,11 +12,23 @@ namespace LibraryApp
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, Microsoft.AspNetCore.Hosting.IHostingEnvironment env)
         {
             Configuration = configuration;
-        }
+         
+            // Set up configuration sources.
+            var builder = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
 
+
+            using (var db = new BookContext())
+            {
+                db.Database.EnsureCreated();
+                //db.Database.Migrate();
+            }
+        }
+     
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -28,6 +40,10 @@ namespace LibraryApp
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+
+            services.AddEntityFrameworkSqlite()
+            .AddDbContext<BookContext>();
 
             services.AddDbContext<BookContext>(options =>
             {
@@ -71,7 +87,7 @@ namespace LibraryApp
                 // To learn more about options for serving an Angular SPA from ASP.NET Core,
                 // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                spa.Options.SourcePath = "ClientApp";
+                spa.Options.SourcePath = "ClientApp ";
 
                 if (env.IsDevelopment())
                 {

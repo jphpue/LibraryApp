@@ -13,7 +13,8 @@ namespace LibraryApp.Controllers
 {
     public class BooksController : Controller
     {
-        private readonly BookContext _context;
+        //private readonly BookContext _context;
+        private readonly BookContext _context = new BookContext();
 
         public BooksController(BookContext context)
         {
